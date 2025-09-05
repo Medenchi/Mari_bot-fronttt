@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Марина Заугольникова</title>
+    <style>
+        :root {
+            --tg-bg: var(--tg-theme-bg-color, #ffffff);
+            --tg-text: var(--tg-theme-text-color, #000000);
+            --tg-hint: var(--tg-theme-hint-color, #999999);
+            --tg-link: var(--tg-theme-link-color, #007aff);
+            --tg-button: var(--tg-theme-button-color, #007aff);
+            --tg-button-text: var(--tg-theme-button-text-color, #ffffff);
+            --tg-secondary-bg: var(--tg-theme-secondary-bg-color, #f0f0f0);
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            padding: 0;
+            margin: 0;
+            background-color: var(--tg-bg);
+            color: var(--tg-text);
+            -webkit-font-smoothing: antialiased;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+        .app-container {
+            padding: 20px;
+            flex-grow: 1;
+            overflow-y: auto;
+        }
+        nav {
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            background-color: var(--tg-secondary-bg);
+            flex-shrink: 0;
+        }
+        nav button {
+            flex-grow: 1;
+            padding: 12px 0;
+            font-size: 16px;
+            font-weight: 600;
+            border: none;
+            background: none;
+            color: var(--tg-hint);
+            cursor: pointer;
+            transition: color 0.2s ease, border-bottom 0.2s ease;
+            border-bottom: 3px solid transparent;
+        }
+        nav button.active {
+            color: var(--tg-link);
+            border-bottom: 3px solid var(--tg-link);
+        }
+        .view {
+            display: none;
+        }
+        .view.active {
+            display: block;
+        }
+        h1 { font-size: 24px; font-weight: 700; margin-bottom: 20px; }
+        
+        /* Стили для портфолио */
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+        .portfolio-item {
+            padding: 20px;
+            background-color: var(--tg-secondary-bg);
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 500;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.15s ease;
+        }
+        .portfolio-item:active {
+            transform: scale(0.97);
+        }
+
+        /* Стили для формы записи */
+        .form-group { margin-bottom: 20px; }
+        label { display: block; font-size: 14px; color: var(--tg-hint); margin-bottom: 8px; font-weight: 500; }
+        select, textarea {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid var(--tg-secondary-bg);
+            border-radius: 10px;
+            box-sizing: border-box;
+            background-color: var(--tg-secondary-bg);
+            color: var(--tg-text);
+            font-size: 16px;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+        textarea { resize: vertical; min-height: 100px; }
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        <!-- ВКЛАДКА ПОРТФОЛИО -->
+        <div id="portfolio-view" class="view active">
+            <h1>Портфолио</h1>
+            <p style="color: var(--tg-hint); margin-top: -15px; margin-bottom: 20px;">Нажмите на раздел, чтобы посмотреть работы в чате с ботом.</p>
+            <div class="portfolio-grid">
+                <!-- 
+                    !!! ВАЖНО !!!
+                    Чтобы добавить, изменить или удалить раздел, редактируй этот список.
+                    Просто скопируй строчку <div class="portfolio-item" ...> и поменяй название.
+                    Название должно ТОЧНО СОВПАДАТЬ с тем, как ты назвал раздел в админке.
+                -->
+                <div class="portfolio-item" data-section="Индивидуальная">Индивидуальная</div>
+                <div class="portfolio-item" data-section="Love Story">Love Story</div>
+                <div class="portfolio-item" data-section="Семейная/Детская">Семейная/Детская</div>
+                <div class="portfolio-item" data-section="Контент-съёмка">Контент-съёмка</div>
+            </div>
+        </div>
+
+        <!-- ВКЛАДКА ЗАПИСИ -->
+        <div id="booking-view" class="view">
+            <h1>Запись на съёмку</h1>
+            <div class="form-group">
+                <label for="plan">План съёмки</label>
+                <select id="plan">
+                    <option value="Индивидуальная">Индивидуальная</option>
+                    <option value="Love Story">Love Story</option>
+                    <option value="Семейная/Детская">Семейная/Детская</option>
+                    <option value="Контент-съёмка">Контент-съёмка</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="hours">Количество часов</label>
+                <select id="hours">
+                    <option value="1 час">1 час</option>
+                    <option value="2 часа">2 часа</option>
+                    <option value="3 часа">3 часа</option>
+                    <option value="Более 3 часов">Более 3 часов</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="location">Локация</label>
+                <select id="location">
+                    <option value="В студии">В студии</option>
+                    <option value="На улице">На улице</option>
+                    <option value="У вас дома">У вас дома</option>
+                    <option value="Другое (обсудим)">Другое (обсудим)</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="comments">Пожелания</label>
+                <textarea id="comments" placeholder="Расскажите о своих идеях, если они есть"></textarea>
+            </div>
+        </div>
+    </div>
+
+    <nav>
+        <button id="nav-portfolio" class="active">Портфолио</button>
+        <button id="nav-booking">Записаться</button>
+    </nav>
+
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script>
+        const tg = window.Telegram.WebApp;
+        tg.expand();
+
+        const portfolioView = document.getElementById('portfolio-view');
+        const bookingView = document.getElementById('booking-view');
+        const navPortfolio = document.getElementById('nav-portfolio');
+        const navBooking = document.getElementById('nav-booking');
+
+        // Функция для переключения вкладок
+        function showView(viewToShow) {
+            [portfolioView, bookingView].forEach(v => v.classList.remove('active'));
+            viewToShow.classList.add('active');
+
+            [navPortfolio, navBooking].forEach(b => b.classList.remove('active'));
+            if (viewToShow === portfolioView) {
+                navPortfolio.classList.add('active');
+                tg.MainButton.hide(); // На вкладке портфолио главная кнопка не нужна
+            } else {
+                navBooking.classList.add('active');
+                tg.MainButton.text = "Продолжить запись";
+                tg.MainButton.show(); // Показываем кнопку на вкладке записи
+            }
+        }
+        
+        navPortfolio.addEventListener('click', () => showView(portfolioView));
+        navBooking.addEventListener('click', () => showView(bookingView));
+
+        // Обработчики для кнопок портфолио
+        document.querySelectorAll('.portfolio-item').forEach(item => {
+            item.addEventListener('click', function() {
+                const sectionName = this.dataset.section;
+                tg.sendData(JSON.stringify({
+                    source: 'show_portfolio',
+                    section: sectionName
+                }));
+                tg.close(); // Закрываем Web App, чтобы показать фото в чате
+            });
+        });
+        
+        // Обработчик для главной кнопки Telegram (отправка формы)
+        tg.onEvent('mainButtonClicked', function() {
+            if (bookingView.classList.contains('active')) {
+                const data = {
+                    source: 'booking_form',
+                    plan: document.getElementById('plan').value,
+                    hours: document.getElementById('hours').value,
+                    location: document.getElementById('location').value,
+                    comments: document.getElementById('comments').value
+                };
+                tg.sendData(JSON.stringify(data));
+            }
+        });
+
+        // Инициализация при загрузке
+        showView(portfolioView); // Начинаем с вкладки портфолио
+    </script>
+</body>
+  </html>
