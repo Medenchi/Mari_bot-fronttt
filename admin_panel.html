@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Админ-панель</title>
+    <style>
+        :root {
+            --tg-bg: var(--tg-theme-bg-color, #ffffff);
+            --tg-text: var(--tg-theme-text-color, #000000);
+            --tg-hint: var(--tg-theme-hint-color, #999999);
+            --tg-link: var(--tg-theme-link-color, #007aff);
+            --tg-button: var(--tg-theme-button-color, #007aff);
+            --tg-button-text: var(--tg-theme-button-text-color, #ffffff);
+            --tg-secondary-bg: var(--tg-theme-secondary-bg-color, #f0f0f0);
+            --tg-destructive-text: var(--tg-theme-destructive-text-color, #ff3b30);
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            padding: 15px;
+            margin: 0;
+            background-color: var(--tg-bg);
+            color: var(--tg-text);
+        }
+        h1 { margin-top: 0; }
+        .card {
+            padding: 15px;
+            margin-bottom: 20px;
+            background-color: var(--tg-secondary-bg);
+            border-radius: 12px;
+        }
+        h2 { font-size: 18px; margin-top: 0; }
+        
+        /* Список разделов */
+        #sections-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .section-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            background-color: var(--tg-bg);
+            border-radius: 8px;
+        }
+        .section-name {
+            font-weight: 500;
+        }
+        .delete-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 5px;
+        }
+        .delete-btn svg {
+            display: block;
+            width: 20px;
+            height: 20px;
+            fill: var(--tg-destructive-text);
+        }
+
+        /* Форма добавления */
+        input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            border: 1px solid var(--tg-hint);
+            box-sizing: border-box;
+            font-size: 16px;
+            background-color: var(--tg-bg);
+            color: var(--tg-text);
+        }
+        button#addSectionBtn {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            background-color: var(--tg-button);
+            color: var(--tg-button-text);
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        #no-sections-placeholder {
+            color: var(--tg-hint);
+            text-align: center;
+            padding: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Панель управления</h1>
+
+    <div class="card">
+        <h2>Существующие разделы</h2>
+        <div id="sections-list">
+            <!-- Разделы будут вставлены сюда с помощью JavaScript -->
+            <div id="no-sections-placeholder">Разделов пока нет.</div>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>Добавить новый раздел</h2>
+        <input type="text" id="sectionNameInput" placeholder="Название раздела">
+        <button id="addSectionBtn">Создать</button>
+    </div>
+
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script>
+        const tg = window.Telegram.WebApp;
+        tg.expand();
+        tg.MainButton.hide();
+
+        const sectionsList = document.getElementById('sections-list');
+        const placeholder = document.getElementById('no-sections-placeholder');
+        const sectionNameInput = document.getElementById('sectionNameInput');
+        const addSectionBtn = document.getElementById('addSectionBtn');
+
+        // Функция для отрисовки списка разделов
+        function renderSections(sections) {
+            sectionsList.innerHTML = ''; // Очищаем список
+            if (sections.length === 0) {
+                sectionsList.appendChild(placeholder);
+                placeholder.style.display = 'block';
+            } else {
+                placeholder.style.display = 'none';
+                sections.forEach(name => {
+                    const item = document.createElement('div');
+                    item.className = 'section-item';
+                    
+                    const nameSpan = document.createElement('span');
+                    nameSpan.className = 'section-name';
+                    nameSpan.textContent = name;
+                    
+                    const deleteBtn = document.createElement('button');
+                    deleteBtn.className = 'delete-btn';
+                    deleteBtn.innerHTML = `<svg viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8a2 2 0 0 0 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>`;
+                    
+                    deleteBtn.onclick = () => {
+                        tg.showConfirm(`Вы уверены, что хотите удалить раздел "${name}"? Все фото в нем также будут удалены.`, (confirmed) => {
+                            if (confirmed) {
+                                tg.sendData(JSON.stringify({
+                                    source: 'admin_panel',
+                                    action: 'delete_section',
+                                    name: name
+                                }));
+                            }
+                        });
+                    };
+                    
+                    item.appendChild(nameSpan);
+                    item.appendChild(deleteBtn);
+                    sectionsList.appendChild(item);
+                });
+            }
+        }
+
+        // Кнопка добавления раздела
+        addSectionBtn.addEventListener('click', () => {
+            const sectionName = sectionNameInput.value.trim();
+            if (sectionName) {
+                tg.sendData(JSON.stringify({
+                    source: 'admin_panel',
+                    action: 'add_section',
+                    name: sectionName
+                }));
+                sectionNameInput.value = ''; // Очищаем поле ввода
+            } else {
+                tg.showAlert('Введите название раздела.');
+            }
+        });
+
+        // Получаем данные от бота при открытии
+        tg.ready(() => {
+            // Бот передаст нам список разделов в параметре ?sections=...
+            const urlParams = new URLSearchParams(window.location.search);
+            const sectionsParam = urlParams.get('sections');
+            
+            if (sectionsParam) {
+                // Декодируем и разбиваем строку на массив
+                const sections = decodeURIComponent(sectionsParam).split(',');
+                renderSections(sections);
+            } else {
+                renderSections([]);
+            }
+        });
+    </script>
+</body>
+</html>
