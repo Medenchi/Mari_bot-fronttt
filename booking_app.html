@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Марина Заугольникова</title>
+    <title>Стоимость фотосъемки</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -13,176 +13,186 @@
             --tg-text: var(--tg-theme-text-color, #ffffff);
             --tg-hint: var(--tg-theme-hint-color, #aaaaaa);
             --tg-link: var(--tg-theme-link-color, #52a9ff);
-            --tg-button: var(--tg-theme-button-color, #2b2b2b);
             --tg-button-text: var(--tg-theme-button-text-color, #ffffff);
             --tg-secondary-bg: var(--tg-theme-secondary-bg-color, #2b2b2b);
         }
         body {
-            font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            padding: 0;
+            font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            padding: 20px;
             margin: 0;
             background-color: var(--tg-bg);
             color: var(--tg-text);
             -webkit-font-smoothing: antialiased;
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
-            overflow: hidden;
         }
-        .app-container {
-            padding: 20px;
-            flex-grow: 1;
-            overflow-y: auto;
-        }
-        nav {
-            display: flex;
-            justify-content: space-around;
-            padding: 10px 0;
-            border-top: 1px solid var(--tg-secondary-bg);
-            background-color: var(--tg-bg);
-            flex-shrink: 0;
-        }
-        nav button {
-            flex-grow: 1;
-            padding: 12px 0;
-            font-size: 16px;
-            font-weight: 600;
-            border: none;
-            background: none;
-            color: var(--tg-hint);
-            cursor: pointer;
-            transition: color 0.2s ease, border-bottom 0.2s ease;
-            border-bottom: 3px solid transparent;
-            font-family: 'Manrope', sans-serif;
-        }
-        nav button.active {
-            color: var(--tg-link);
-            border-bottom: 3px solid var(--tg-link);
-        }
-        .view { display: none; }
-        .view.active { display: block; }
-        h1 { font-size: 28px; font-weight: 700; margin-bottom: 20px; }
-        .portfolio-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 15px;
-        }
-        .portfolio-item {
-            padding: 25px;
+        h1, h2, h3 { margin-top: 0; font-weight: 700; }
+        h1 { font-size: 28px; text-align: center; margin-bottom: 10px; }
+        h2 { font-size: 24px; margin-top: 40px; margin-bottom: 20px; }
+        h3 { font-size: 20px; margin-top: 30px; margin-bottom: 15px; }
+        p { color: var(--tg-hint); line-height: 1.6; margin-top: 0; }
+        .center-text { text-align: center; }
+        .section { margin-bottom: 40px; }
+        ul { padding-left: 20px; margin: 0; list-style-position: outside; }
+        li { margin-bottom: 10px; line-height: 1.6; }
+        .package {
             background-color: var(--tg-secondary-bg);
             border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .package-price {
             font-size: 18px;
             font-weight: 600;
-            text-align: center;
-            cursor: pointer;
-            transition: transform 0.15s ease, background-color 0.2s;
-        }
-        .portfolio-item:active {
-            transform: scale(0.97);
-            background-color: var(--tg-link);
-        }
-        .form-group { margin-bottom: 20px; }
-        label { display: block; font-size: 14px; color: var(--tg-hint); margin-bottom: 8px; font-weight: 500; }
-        select, textarea {
-            width: 100%;
-            padding: 14px;
-            border: 1px solid var(--tg-secondary-bg);
-            border-radius: 10px;
-            box-sizing: border-box;
-            background-color: var(--tg-secondary-bg);
+            margin-top: 20px;
             color: var(--tg-text);
+        }
+        .btn-container { margin-top: 40px; text-align: center; }
+        .main-button {
+            display: inline-block;
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 12px;
+            background-color: var(--tg-link);
+            color: var(--tg-button-text);
             font-size: 16px;
-            -webkit-appearance: none;
-            appearance: none;
+            font-weight: 700;
+            cursor: pointer;
+            text-align: center;
             font-family: 'Manrope', sans-serif;
         }
-        textarea { resize: vertical; min-height: 100px; }
     </style>
 </head>
 <body>
-    <div class="app-container">
-        <div id="portfolio-view" class="view active">
-            <h1>Портфолио</h1>
-            <p style="color: var(--tg-hint); margin-top: -15px; margin-bottom: 20px;">Нажмите на раздел, чтобы посмотреть работы.</p>
-            <div class="portfolio-grid">
-                <div class="portfolio-item" data-section="Индивидуальная">Индивидуальная</div>
-                <div class="portfolio-item" data-section="Love Story">Love Story</div>
-                <div class="portfolio-item" data-section="Семейная/Детская">Семейная/Детская</div>
-                <div class="portfolio-item" data-section="Контент-съёмка">Контент-съёмка</div>
-            </div>
+
+    <div class="section">
+        <h1>Стоимость фотосъемки</h1>
+        <p class="center-text">Здесь вы можете посмотреть информацию о пакетах услуг и стоимости</p>
+    </div>
+
+    <div class="section">
+        <h2>Этапы работы до съемки:</h2>
+        
+        <h3>1. Заполняем бриф, если нужна контент — съемка.</h3>
+        <ul>
+            <li>в бриф — анкете выясним ваши задачи, созвонимся и обсудим детали.</li>
+        </ul>
+
+        <h3>2. Выбираем локацию</h3>
+        <ul>
+            <li>для съемки женского портрета я предлагаю провести съемку в студии, присылаю фото залов, в которых снимаю, я работаю с естественным дневным светом в студиях, где минимальное количество мебели и декора</li>
+        </ul>
+
+        <h3>3. Собираем образы</h3>
+        <ul>
+            <li>отправляю вам ссылку с рекомендациями по образам. По желанию, вы можете воспользоваться услугами стилиста и визажиста. Список команды присылаю по запросу.</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>Пакеты</h2>
+        <p>Посмотрите пакеты услуг и стоимость</p>
+
+        <div class="package">
+            <h3>Экспресс</h3>
+            <ul>
+                <li>Консультация</li>
+                <li>Подбор студии</li>
+                <li>1 час</li>
+                <li>15 фото в цвете и чб</li>
+                <li>Передача фото через 14 рабочих дней</li>
+                <li>Все удачные исходники в jpg можно выкупить — 6.000Р</li>
+            </ul>
+            <p class="package-price">стоимость 15 000 руб.</p>
         </div>
-        <div id="booking-view" class="view">
-            <h1>Запись на съёмку</h1>
-            <div class="form-group">
-                <label for="plan">План съёмки</label>
-                <select id="plan">
-                    <option>Индивидуальная</option><option>Love Story</option><option>Семейная/Детская</option><option>Контент-съёмка</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="hours">Количество часов</label>
-                <select id="hours">
-                    <option>1 час</option><option>2 часа</option><option>3 часа</option><option>Более 3 часов</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="location">Локация</label>
-                <select id="location">
-                    <option>В студии</option><option>На улице</option><option>У вас дома</option><option>Другое (обсудим)</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="comments">Пожелания</label>
-                <textarea id="comments" placeholder="Расскажите о своих идеях..."></textarea>
-            </div>
+        
+        <div class="package">
+            <h3>Лайт</h3>
+            <ul>
+                <li>Консультация</li>
+                <li>Подбор студии</li>
+                <li>работаем до результата, аренда студии не входит в пакет</li>
+                <li>40 фотографий в цвете и чб</li>
+                <li>Передача фото через 14 рабочих дней</li>
+                <li>Все удачные исходники в jpg</li>
+            </ul>
+            <p class="package-price">стоимость 25 000 руб.</p>
+        </div>
+
+        <div class="package">
+            <h3>Комфорт</h3>
+            <ul>
+                <li>Консультация</li>
+                <li>Подбор студии</li>
+                <li>Работаем до результата, аренда студии не входит в пакет</li>
+                <li>80 фотографий в цвете и чб</li>
+                <li>Передача фото через 7 рабочих дней</li>
+                <li>Все удачные исходники в jpg</li>
+            </ul>
+            <p class="package-price">стоимость 35 000 руб.</p>
+        </div>
+        
+        <div class="package">
+            <h3>Под ключ</h3>
+            <ul>
+                <li>Консультация</li>
+                <li>Подбор студии</li>
+                <li>Аренда студии 3 часа</li>
+                <li>100 фотографий в цвете и чб</li>
+                <li>Макияж и прическа</li>
+                <li>3 образа от стилиста</li>
+                <li>Видео нарезки для рилс и сторис (по запросу)</li>
+                <li>Передача фото на следующий день</li>
+                <li>Все удачные исходники в jpg</li>
+            </ul>
+            <p class="package-price">стоимость 115 000 руб.</p>
         </div>
     </div>
-    <nav>
-        <button id="nav-portfolio" class="active">Портфолио</button>
-        <button id="nav-booking">Записаться</button>
-    </nav>
+    
+    <div class="section">
+        <h2>Другие виды съемки</h2>
+        <div class="package">
+            <h3>Репортажная съемка</h3>
+            <p style="margin-top: -10px;">от 8000 руб. / час</p>
+            <ul>
+                <li>от 2 часов</li>
+                <li>от 200 фотографий в течение недели после съемки</li>
+                <li>передача фотографий через закрытый диск на моем сайте</li>
+            </ul>
+        </div>
+    </div>
+    
+    <div class="section">
+        <h2>Дополнительно:</h2>
+        <ul>
+            <li>Записываясь ко мне на съемку, вы принимаете мое авторское видение и стиль в обработке.</li>
+            <li>Я делаю легкую ретушь, после которой вы точно узнаете себя. И не делаю пластику лица и тела, которая меняет вашу внешность.</li>
+            <li>Я снимаю в студиях только с естественным дневным светом и выбираю залы, где мало мебели и декора.</li>
+            <li>Фото передаю через персональную фотогалерею на моем сайте, срок хранения материала до 3 месяцев.</li>
+            <li>Исходный материал не отдаю, фото для цветокоррекции отбираю сама</li>
+            <li>Перенос даты возможен не более 2х раз</li>
+            <li>Бронирование осуществляется только после перевода задатка 6000Р (задаток не возвращается, если я уже подобрала вам студию и прислала рекомендации по образам — это часть моей работы).</li>
+            <li>О конфиденциальности съёмки предупредите заранее, на этапе подготовки.</li>
+            <li>Аренда локации и команды оплачивается отдельно.</li>
+            <li>В случае выезда за пределы Москвы, к стоимости прибавляются расходы на дорогу туда и обратно.</li>
+        </ul>
+    </div>
+    
+    <div class="btn-container">
+        <button id="book-button" class="main-button">ЗАПИСАТЬСЯ НА СЪЕМКУ</button>
+    </div>
+    
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script>
         const tg = window.Telegram.WebApp;
         tg.expand();
-        const portfolioView = document.getElementById('portfolio-view'), bookingView = document.getElementById('booking-view');
-        const navPortfolio = document.getElementById('nav-portfolio'), navBooking = document.getElementById('nav-booking');
+        tg.MainButton.hide();
 
-        function showView(viewToShow) {
-            [portfolioView, bookingView].forEach(v => v.classList.remove('active'));
-            viewToShow.classList.add('active');
-            [navPortfolio, navBooking].forEach(b => b.classList.remove('active'));
-            if (viewToShow === portfolioView) {
-                navPortfolio.classList.add('active');
-                tg.MainButton.hide();
-            } else {
-                navBooking.classList.add('active');
-                tg.MainButton.text = "Отправить заявку";
-                tg.MainButton.show();
-            }
-        }
-        navPortfolio.addEventListener('click', () => showView(portfolioView));
-        navBooking.addEventListener('click', () => showView(bookingView));
-        
-        document.querySelectorAll('.portfolio-item').forEach(item => {
-            item.addEventListener('click', function() {
-                tg.sendData(JSON.stringify({source: 'show_portfolio', section: this.dataset.section}));
-                tg.close();
-            });
+        document.getElementById('book-button').addEventListener('click', () => {
+            // Отправляем простое сообщение, что пользователь хочет записаться
+            tg.sendData(JSON.stringify({ source: 'start_booking' }));
+            tg.close();
         });
-        
-        tg.onEvent('mainButtonClicked', function() {
-            if (bookingView.classList.contains('active')) {
-                tg.sendData(JSON.stringify({
-                    source: 'booking_form',
-                    plan: document.getElementById('plan').value,
-                    hours: document.getElementById('hours').value,
-                    location: document.getElementById('location').value,
-                    comments: document.getElementById('comments').value
-                }));
-            }
-        });
-        showView(portfolioView);
     </script>
+
 </body>
-</html>
+    </html>
