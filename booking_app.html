@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Админ-панель</title>
+    <title>Марина Заугольникова</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -12,108 +12,177 @@
             --tg-bg: var(--tg-theme-bg-color, #1a1a1a);
             --tg-text: var(--tg-theme-text-color, #ffffff);
             --tg-hint: var(--tg-theme-hint-color, #aaaaaa);
+            --tg-link: var(--tg-theme-link-color, #52a9ff);
             --tg-button: var(--tg-theme-button-color, #2b2b2b);
             --tg-button-text: var(--tg-theme-button-text-color, #ffffff);
             --tg-secondary-bg: var(--tg-theme-secondary-bg-color, #2b2b2b);
-            --tg-destructive-text: var(--tg-theme-destructive-text-color, #ff4d4d);
         }
         body {
             font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            padding: 15px; margin: 0; background-color: var(--tg-bg); color: var(--tg-text);
+            padding: 0;
+            margin: 0;
+            background-color: var(--tg-bg);
+            color: var(--tg-text);
+            -webkit-font-smoothing: antialiased;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            overflow: hidden;
         }
-        h1, h2 { margin-top: 0; }
-        h1 { font-size: 28px; } h2 { font-size: 20px; }
-        .card { padding: 20px; margin-bottom: 20px; background-color: var(--tg-secondary-bg); border-radius: 12px; }
-        #sections-list { display: flex; flex-direction: column; gap: 10px; }
-        .section-item {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 15px; background-color: var(--tg-bg); border-radius: 8px;
+        .app-container {
+            padding: 20px;
+            flex-grow: 1;
+            overflow-y: auto;
         }
-        .section-name { font-weight: 500; font-size: 16px; }
-        .delete-btn { background: none; border: none; cursor: pointer; padding: 5px; }
-        .delete-btn svg { display: block; width: 22px; height: 22px; fill: var(--tg-hint); transition: fill 0.2s; }
-        .delete-btn:hover svg { fill: var(--tg-destructive-text); }
-        input[type="text"] {
-            width: 100%; padding: 14px; margin-bottom: 10px; border-radius: 8px;
-            border: 1px solid var(--tg-bg); box-sizing: border-box; font-size: 16px;
-            background-color: var(--tg-bg); color: var(--tg-text); font-family: 'Manrope', sans-serif;
+        nav {
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            border-top: 1px solid var(--tg-secondary-bg);
+            background-color: var(--tg-bg);
+            flex-shrink: 0;
         }
-        button#addSectionBtn {
-            width: 100%; padding: 14px; border: none; border-radius: 8px;
-            background-color: var(--tg-button); color: var(--tg-button-text);
-            font-size: 16px; font-weight: 700; cursor: pointer; font-family: 'Manrope', sans-serif;
+        nav button {
+            flex-grow: 1;
+            padding: 12px 0;
+            font-size: 16px;
+            font-weight: 600;
+            border: none;
+            background: none;
+            color: var(--tg-hint);
+            cursor: pointer;
+            transition: color 0.2s ease, border-bottom 0.2s ease;
+            border-bottom: 3px solid transparent;
+            font-family: 'Manrope', sans-serif;
         }
-        #no-sections-placeholder { color: var(--tg-hint); text-align: center; padding: 20px 0; }
+        nav button.active {
+            color: var(--tg-link);
+            border-bottom: 3px solid var(--tg-link);
+        }
+        .view { display: none; }
+        .view.active { display: block; }
+        h1 { font-size: 28px; font-weight: 700; margin-bottom: 20px; }
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+        .portfolio-item {
+            padding: 25px;
+            background-color: var(--tg-secondary-bg);
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 600;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.15s ease, background-color 0.2s;
+        }
+        .portfolio-item:active {
+            transform: scale(0.97);
+            background-color: var(--tg-link);
+        }
+        .form-group { margin-bottom: 20px; }
+        label { display: block; font-size: 14px; color: var(--tg-hint); margin-bottom: 8px; font-weight: 500; }
+        select, textarea {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid var(--tg-secondary-bg);
+            border-radius: 10px;
+            box-sizing: border-box;
+            background-color: var(--tg-secondary-bg);
+            color: var(--tg-text);
+            font-size: 16px;
+            -webkit-appearance: none;
+            appearance: none;
+            font-family: 'Manrope', sans-serif;
+        }
+        textarea { resize: vertical; min-height: 100px; }
     </style>
 </head>
 <body>
-    <h1>Панель управления</h1>
-    <div class="card">
-        <h2>Существующие разделы</h2>
-        <div id="sections-list"><div id="no-sections-placeholder">Загрузка...</div></div>
+    <div class="app-container">
+        <div id="portfolio-view" class="view active">
+            <h1>Портфолио</h1>
+            <p style="color: var(--tg-hint); margin-top: -15px; margin-bottom: 20px;">Нажмите на раздел, чтобы посмотреть работы.</p>
+            <div class="portfolio-grid">
+                <div class="portfolio-item" data-section="Индивидуальная">Индивидуальная</div>
+                <div class="portfolio-item" data-section="Love Story">Love Story</div>
+                <div class="portfolio-item" data-section="Семейная/Детская">Семейная/Детская</div>
+                <div class="portfolio-item" data-section="Контент-съёмка">Контент-съёмка</div>
+            </div>
+        </div>
+        <div id="booking-view" class="view">
+            <h1>Запись на съёмку</h1>
+            <div class="form-group">
+                <label for="plan">План съёмки</label>
+                <select id="plan">
+                    <option>Индивидуальная</option><option>Love Story</option><option>Семейная/Детская</option><option>Контент-съёмка</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="hours">Количество часов</label>
+                <select id="hours">
+                    <option>1 час</option><option>2 часа</option><option>3 часа</option><option>Более 3 часов</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="location">Локация</label>
+                <select id="location">
+                    <option>В студии</option><option>На улице</option><option>У вас дома</option><option>Другое (обсудим)</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="comments">Пожелания</label>
+                <textarea id="comments" placeholder="Расскажите о своих идеях..."></textarea>
+            </div>
+        </div>
     </div>
-    <div class="card">
-        <h2>Добавить новый раздел</h2>
-        <input type="text" id="sectionNameInput" placeholder="Название раздела">
-        <button id="addSectionBtn">Создать</button>
-    </div>
+    <nav>
+        <button id="nav-portfolio" class="active">Портфолио</button>
+        <button id="nav-booking">Записаться</button>
+    </nav>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script>
         const tg = window.Telegram.WebApp;
-        tg.expand(); tg.MainButton.hide();
+        tg.expand();
+        const portfolioView = document.getElementById('portfolio-view'), bookingView = document.getElementById('booking-view');
+        const navPortfolio = document.getElementById('nav-portfolio'), navBooking = document.getElementById('nav-booking');
 
-        const sectionsList = document.getElementById('sections-list');
-        const placeholder = document.getElementById('no-sections-placeholder');
-        const sectionNameInput = document.getElementById('sectionNameInput');
-        const addSectionBtn = document.getElementById('addSectionBtn');
-
-        function renderSections(sections) {
-            sectionsList.innerHTML = '';
-            if (sections.length === 0 || (sections.length === 1 && sections[0] === '')) {
-                placeholder.textContent = "Разделов пока нет.";
-                sectionsList.appendChild(placeholder);
+        function showView(viewToShow) {
+            [portfolioView, bookingView].forEach(v => v.classList.remove('active'));
+            viewToShow.classList.add('active');
+            [navPortfolio, navBooking].forEach(b => b.classList.remove('active'));
+            if (viewToShow === portfolioView) {
+                navPortfolio.classList.add('active');
+                tg.MainButton.hide();
             } else {
-                sections.forEach(name => {
-                    const item = document.createElement('div');
-                    item.className = 'section-item';
-                    
-                    const nameSpan = document.createElement('span');
-                    nameSpan.className = 'section-name';
-                    nameSpan.textContent = name;
-                    
-                    const deleteBtn = document.createElement('button');
-                    deleteBtn.className = 'delete-btn';
-                    deleteBtn.innerHTML = `<svg viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8a2 2 0 0 0 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>`;
-                    
-                    deleteBtn.onclick = () => {
-                        tg.showConfirm(`Удалить раздел "${name}"? Все фото в нем тоже будут удалены.`, (confirmed) => {
-                            if (confirmed) {
-                                tg.sendData(JSON.stringify({ source: 'admin_panel', action: 'delete_section', name: name }));
-                            }
-                        });
-                    };
-                    
-                    item.appendChild(nameSpan); item.appendChild(deleteBtn);
-                    sectionsList.appendChild(item);
-                });
+                navBooking.classList.add('active');
+                tg.MainButton.text = "Отправить заявку";
+                tg.MainButton.show();
             }
         }
-
-        addSectionBtn.addEventListener('click', () => {
-            const sectionName = sectionNameInput.value.trim();
-            if (sectionName) {
-                tg.sendData(JSON.stringify({ source: 'admin_panel', action: 'add_section', name: sectionName }));
-                sectionNameInput.value = '';
-            } else {
-                tg.showAlert('Введите название раздела.');
+        navPortfolio.addEventListener('click', () => showView(portfolioView));
+        navBooking.addEventListener('click', () => showView(bookingView));
+        
+        document.querySelectorAll('.portfolio-item').forEach(item => {
+            item.addEventListener('click', function() {
+                tg.sendData(JSON.stringify({source: 'show_portfolio', section: this.dataset.section}));
+                tg.close();
+            });
+        });
+        
+        tg.onEvent('mainButtonClicked', function() {
+            if (bookingView.classList.contains('active')) {
+                tg.sendData(JSON.stringify({
+                    source: 'booking_form',
+                    plan: document.getElementById('plan').value,
+                    hours: document.getElementById('hours').value,
+                    location: document.getElementById('location').value,
+                    comments: document.getElementById('comments').value
+                }));
             }
         });
-
-        tg.ready(() => {
-            const urlParams = new URLSearchParams(window.location.search);
-            const sectionsParam = urlParams.get('sections');
-            renderSections(sectionsParam ? decodeURIComponent(sectionsParam).split(',') : []);
-        });
+        showView(portfolioView);
     </script>
 </body>
-</html>```
+</html>
